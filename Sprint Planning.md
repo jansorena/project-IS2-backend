@@ -8,13 +8,14 @@ Como administrador quiero entrar a la plataforma mediante un login para poder ge
 Administrador ingresa mediante un login con sus credenciales. Tras la verificación, el administrador es redirigido a la página principal del panel de administración.
 #### Tareas
 - [ ] Implementación del sistema de autenticación y manejo de sesiones.
-- [ ] Diseño e implementación de las interfaces de usuario para el administrador.
+- [ ] Diseño de las interfaces de usuario para el administrador.
+- [ ] Implementación de las interfaces de usuario.
 ### US2
 Como administrador quiero poder registrar a los nuevos clientes (nombre, sexo, edad, diagnosticos, etc), para que los entrenadores puedan acceder a esta información y personalizar los entrenamientos.
 #### Criterio de aceptación
 Cuando el administrador esté logueado, al ingresar un nuevo cliente podré especificar sus datos: rut, nombre, sexo, historial médico, fecha nacimiento, los cuales son almacenados en la plataforma y serán visibles por administradores y entrenadores
 #### Tareas
-- [ ] Configuración inicial del servidor y modelamiento de la base de datos.
+- [ ] Modelamiento de la base de datos.
 - [ ] Desarrollo de funcionalidades para añadir y gestionar clientes.
 ### US3
 Como administrador quiero actualizar o registrar una membresía posterior al pago de esta para gestionar suscripciones.
@@ -32,9 +33,9 @@ El administrador puede acceder al horario específico de un entrenador y agendar
 - [ ] Diseñar la interfaz para manejar datos de entrenadores y sus horarios.
 - [ ] Implementar la funcionalidad para agendar sesiones de entrenamiento y evaluaciones.
 ## Tecnologias
-Backend: 
-Frontend: 
-Autenticación: 
+Backend: Nodejs Express
+  Base de datos: PostgreSQL
+Frontend: Svelte, React?
 ## Demo
 - Demostración de inicio de sesión para diferentes roles.
 - Función de añadir un nuevo cliente y gestionar sus membresías.
