@@ -7,7 +7,6 @@ Como administrador quiero entrar a la plataforma mediante un login para poder ge
 #### Criterio de aceptación
 Administrador ingresa mediante un login con sus credenciales. Tras la verificación, el administrador es redirigido a la página principal del panel de administración.
 #### Tareas
-- [ ] Implementación del sistema de autenticación y manejo de sesiones.
 - [ ] Diseño de las interfaces de usuario para el administrador.
 - [ ] Implementación de las interfaces de usuario.
 ### US2
@@ -15,6 +14,7 @@ Como administrador quiero poder registrar a los nuevos clientes (nombre, sexo, e
 #### Criterio de aceptación
 Cuando el administrador esté logueado, al ingresar un nuevo cliente podré especificar sus datos: rut, nombre, sexo, historial médico, fecha nacimiento, los cuales son almacenados en la plataforma y serán visibles por administradores y entrenadores
 #### Tareas
+- [ ] Diseño de la base de datos.
 - [ ] Modelamiento de la base de datos.
 - [ ] Desarrollo de funcionalidades para añadir y gestionar clientes.
 ### US3
