@@ -33,9 +33,8 @@ El administrador puede acceder al horario específico de un entrenador y agendar
 - [ ] Diseñar la interfaz para manejar datos de entrenadores y sus horarios.
 - [ ] Implementar la funcionalidad para agendar sesiones de entrenamiento y evaluaciones.
 ## Tecnologias
-Backend: Nodejs Express
-  Base de datos: PostgreSQL
-Frontend: Svelte, React?
+- Backend: Nodejs Express, PostgreSQL
+- Frontend: Svelte, React.
 ## Demo
 - Demostración de inicio de sesión para diferentes roles.
 - Función de añadir un nuevo cliente y gestionar sus membresías.
