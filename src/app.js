@@ -3,32 +3,14 @@ import __dirname from './utils/pathUtils.js';
 import path from "path";
 import handlebars from "express-handlebars";
 import authRoutes from './routes/authRoutes.js';
-import client from './config/db-turso.js';
 import passport from "passport";
 import initPassport from "./config/passport.config.js";
 import viewRoutes from './routes/viewRoutes.js';
 import cookieParser from 'cookie-parser';
+import clienteRoutes from './routes/clienteRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT;
-
-
-// Database connection Turso with libsql
-const db = client;
-
-// Ejecutar una consulta SQL
-await db.batch([
-    "CREATE TABLE IF NOT EXISTS test (email TEXT)",
-    "INSERT INTO test (email) VALUES ('alice@example.com')",
-    "INSERT INTO test (email) VALUES ('bob@example.com')"
-], "write");
-const rs = await db.execute("SELECT * FROM cliente");
-console.log(rs);
-
-
-
-
-
 
 // Middlewares
 app.use(express.json());
@@ -67,5 +49,6 @@ initPassport();
 // Routes
 app.use('/', viewRoutes);
 app.use('/auth', authRoutes);
+app.use('/api/clientes', clienteRoutes);
 
 
