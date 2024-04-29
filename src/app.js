@@ -3,7 +3,7 @@ import __dirname from './utils/pathUtils.js';
 import path from "path";
 import handlebars from "express-handlebars";
 import authRoutes from './routes/authRoutes.js';
-import db from "./config/db.js";
+import client from './config/db-turso.js';
 import passport from "passport";
 import initPassport from "./config/passport.config.js";
 import viewRoutes from './routes/viewRoutes.js';
@@ -12,12 +12,23 @@ import cookieParser from 'cookie-parser';
 const app = express();
 const PORT = process.env.PORT;
 
-// Database connection
-db.then(() => {
-    console.log("Connected to MongoDB");
-}).catch((err) => {
-    console.log("Error connecting to MongoDB: ", err);
-});
+
+// Database connection Turso with libsql
+const db = client;
+
+// Ejecutar una consulta SQL
+await db.batch([
+    "CREATE TABLE IF NOT EXISTS test (email TEXT)",
+    "INSERT INTO test (email) VALUES ('alice@example.com')",
+    "INSERT INTO test (email) VALUES ('bob@example.com')"
+], "write");
+const rs = await db.execute("SELECT * FROM cliente");
+console.log(rs);
+
+
+
+
+
 
 // Middlewares
 app.use(express.json());
