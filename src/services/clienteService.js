@@ -7,3 +7,11 @@ export async function getAllClientes() {
 export async function addCliente(email) {
     return await Cliente.create(email);
 }
+
+export async function getRutinasByClienteId(clienteId) {
+    return await Cliente.findRutinasByClienteId(clienteId);
+}
+
+export async function getClienteById(clienteId) {
+    return await Cliente.findById(clienteId);
+}
