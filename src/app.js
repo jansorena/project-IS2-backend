@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import __dirname from './utils/pathUtils.js';
 import path from "path";
 import handlebars from "express-handlebars";
@@ -16,6 +17,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors());
 
 // Static files
 const publicPath = path.join(__dirname, "../../public");
