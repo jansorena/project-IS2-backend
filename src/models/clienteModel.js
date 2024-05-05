@@ -29,41 +29,38 @@ class Cliente {
     }
 
     // devuelve un cliente con sus detalles
-    static async findClienteDetalles(clienteId) {
+    static async findClienteById(clienteId) {
         const query = `
             SELECT 
-            c.id_cliente,            
-            c.rut,
-            c.nombre,
-            c.apellido,
-            c.email,
-            c.fecha_nacimiento,
-            c.suscripcion,
-            c.telefono,
-            r.id_rutina,
-            r.clasificacion AS clasificacion_rutina,
-            e.id_ejercicio,
-            e.nombre AS ejercicio_nombre,
-            e.descripcion,
-            e.clasificacion AS ejercicio_clasificacion,
-            ct.repeticiones,
-            ct.series,
-            ct.secuencia
-        FROM 
-            cliente c           
-        LEFT JOIN tiene t ON c.id_cliente = t.id_cliente
-        LEFT JOIN rutina r ON t.id_rutina = r.id_rutina
-        LEFT JOIN contiene ct ON r.id_rutina = ct.id_rutina
-        LEFT JOIN ejercicio e ON ct.id_ejercicio = e.id_ejercicio
-        WHERE
-            c.id_cliente = ?;    
-        
-            
-            `;
-        const result = await db.execute({ sql: query, args: [clienteId] });
-        console.log(result);
-        return result.rows;
+                c.id_cliente,
+                c.rut,
+                c.nombre,
+                c.apellido,
+                c.email,
+                c.fecha_nacimiento,
+                c.suscripcion,
+                c.telefono,
+                r.id_rutina,
+                r.clasificacion AS clasificacion_rutina,
+                e.id_ejercicio,
+                e.nombre AS ejercicio_nombre,
+                e.descripcion,
+                e.clasificacion AS ejercicio_clasificacion,
+                ct.repeticiones,
+                ct.series,
+                ct.secuencia
+            FROM 
+                cliente c
+            LEFT JOIN tiene t ON c.id_cliente = t.id_cliente
+            LEFT JOIN rutina r ON t.id_rutina = r.id_rutina
+            LEFT JOIN contiene ct ON r.id_rutina = ct.id_rutina
+            LEFT JOIN ejercicio e ON ct.id_ejercicio = e.id_ejercicio
+            WHERE
+                c.id_cliente = ?;
+        `;
+        return db.execute({ sql: query, args: [clienteId] });
     }
+
 }
 
 export default Cliente;
