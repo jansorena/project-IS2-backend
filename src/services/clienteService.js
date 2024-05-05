@@ -15,3 +15,7 @@ export async function getRutinasByClienteId(clienteId) {
 export async function getClienteById(clienteId) {
     return await Cliente.findById(clienteId);
 }
+
+export async function getClienteDetalles(clienteId) {
+    return await Cliente.getClienteDetalles(clienteId);
+}

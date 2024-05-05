@@ -27,6 +27,30 @@ class Cliente {
         const result = await db.execute(`SELECT * FROM cliente WHERE rut = '${clienteId}'`);
         return result.rows[0];
     }
+
+
+
+    // Método para obtener los detalles de un cliente
+    static async getClienteDetalles(clienteId) {
+        const result = await db.execute(`
+        SELECT 
+        cl.rut, cl.nombre, cl.telefono, 
+        rt.id_rutina, rt.clasificacion, 
+        ej.id_ejercicio, ej.nombre, ej.descripcion, ej.clasificacion AS clasificacion_ejercicio, 
+        ct.repeticiones, ct.series
+    FROM
+        cliente cl
+    LEFT JOIN tiene t ON cl.rut = t.rut
+    LEFT JOIN rutina rt ON t.id_rutina = rt.id_rutina
+    LEFT JOIN contiene ct ON rt.id_rutina = ct.id_rutina
+    LEFT JOIN ejercicio ej ON ct.id_ejercicio = ej.id_ejercicio
+
+    ORDER BY
+        rt.id_rutina;
+    
+        `);
+        return result.rows;
+    }
 }
 
 export default Cliente;
