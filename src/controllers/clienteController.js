@@ -39,7 +39,7 @@ export const getClienteById = async (req, res) => {
 // Controlador para obtener un cliente con sus rutinas y ejercicios
 export const getClienteDetalles = async (req, res) => {
     try {
-        const clienteId = req.params.clienteId;  // Asume que el ID viene como parámetro de la ruta
+        const clienteId = parseInt(req.params.clienteId)
         const clienteDetalles = await clienteService.getClienteDetalles(clienteId);
         res.status(200).json(clienteDetalles);
     } catch (error) {

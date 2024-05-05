@@ -17,5 +17,5 @@ export async function getClienteById(clienteId) {
 }
 
 export async function getClienteDetalles(clienteId) {
-    return await Cliente.getClienteDetalles(clienteId);
+    return await Cliente.findClienteDetalles(clienteId);
 }

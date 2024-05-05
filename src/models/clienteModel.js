@@ -17,38 +17,51 @@ class Cliente {
         const result = await db.execute(`
                 SELECT r.* FROM rutina r
                 INNER JOIN tiene t ON r.id_rutina = t.id_rutina
-                WHERE t.rut = '${clienteId}'
+                WHERE t.rut = ${clienteId}
             `);
         return result.rows;
     }
 
     // devuelve un cliente por su id
     static async findById(clienteId) {
-        const result = await db.execute(`SELECT * FROM cliente WHERE rut = '${clienteId}'`);
+        const result = await db.execute(`SELECT * FROM cliente WHERE rut = ${clienteId}`);
         return result.rows[0];
     }
 
-
-
-    // Método para obtener los detalles de un cliente
-    static async getClienteDetalles(clienteId) {
-        const result = await db.execute(`
-        SELECT 
-        cl.rut, cl.nombre, cl.telefono, 
-        rt.id_rutina, rt.clasificacion, 
-        ej.id_ejercicio, ej.nombre, ej.descripcion, ej.clasificacion AS clasificacion_ejercicio, 
-        ct.repeticiones, ct.series
-    FROM
-        cliente cl
-    LEFT JOIN tiene t ON cl.rut = t.rut
-    LEFT JOIN rutina rt ON t.id_rutina = rt.id_rutina
-    LEFT JOIN contiene ct ON rt.id_rutina = ct.id_rutina
-    LEFT JOIN ejercicio ej ON ct.id_ejercicio = ej.id_ejercicio
-
-    ORDER BY
-        rt.id_rutina;
-    
-        `);
+    // devuelve un cliente con sus detalles
+    static async findClienteDetalles(clienteId) {
+        const query = `
+            SELECT 
+            c.id_cliente,            
+            c.rut,
+            c.nombre,
+            c.apellido,
+            c.email,
+            c.fecha_nacimiento,
+            c.suscripcion,
+            c.telefono,
+            r.id_rutina,
+            r.clasificacion AS clasificacion_rutina,
+            e.id_ejercicio,
+            e.nombre AS ejercicio_nombre,
+            e.descripcion,
+            e.clasificacion AS ejercicio_clasificacion,
+            ct.repeticiones,
+            ct.series,
+            ct.secuencia
+        FROM 
+            cliente c           
+        LEFT JOIN tiene t ON c.id_cliente = t.id_cliente
+        LEFT JOIN rutina r ON t.id_rutina = r.id_rutina
+        LEFT JOIN contiene ct ON r.id_rutina = ct.id_rutina
+        LEFT JOIN ejercicio e ON ct.id_ejercicio = e.id_ejercicio
+        WHERE
+            c.id_cliente = ?;    
+        
+            
+            `;
+        const result = await db.execute({ sql: query, args: [clienteId] });
+        console.log(result);
         return result.rows;
     }
 }
