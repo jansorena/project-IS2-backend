@@ -1,12 +1,7 @@
 import db from "../config/db.js";
 
 class Rutina {
-    static async create(id_rutina,clasificacion, rut, rut_entrenador, fecha_rutina, ejercicios){
-        
-        const resultRutina = await db.execute(`INSERT INTO rutina (id_rutina, clasificacion) VALUES (${id_rutina}, '${clasificacion}')`);
-        const resultCrea = await db.execute(`INSERT INTO crea (rut_entrenador, id_rutina, fecha_rutina) VALUES ( '${rut_entrenador}', ${id_rutina}, ${id_rutina})`);
-        const resultTiene = await db.execute(`INSERT INTO tiene (id_rutina, rut) VALUES (${id_rutina} ,'${rut}')`);
-        
+    static async create(id_rutina,clasificacion, id_cliente, id_entrenador, fecha_rutina, ejercicios){
         
         let query = 'INSERT INTO contiene (id_rutina, id_ejercicio, repeticiones, series, secuencia) VALUES ';
         ejercicios.forEach((ejercicio,index) => {
@@ -17,9 +12,15 @@ class Rutina {
 
         });
       
-        const resultEjercicios = await db.execute(query);
+
+        const result = await db.batch([
+            `INSERT INTO rutina (id_rutina, clasificacion) VALUES (${id_rutina}, '${clasificacion}')`,
+            `INSERT INTO crea (id_entrenador, id_rutina, fecha_rutina) VALUES (${id_entrenador}, ${id_rutina}, '${fecha_rutina}')`,
+            `INSERT INTO tiene (id_rutina, id_cliente) VALUES (${id_rutina} ,${id_cliente})`,
+            query,
+        ],"write")
         
-        return resultRutina.rows, resultCrea.rows, resultTiene.rows, resultEjercicios.rows;
+        return result.rows;
         
     }
 }
