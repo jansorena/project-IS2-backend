@@ -1,9 +1,11 @@
 import CustomRouter from './CustomRouter.js';
-import { createRutina } from '../controllers/rutinaController.js';
+import * as rutinaController from '../controllers/rutinaController.js';
 
 class rutinaRouter extends CustomRouter {
     init() {
-        this.post('/createRutina', ['PUBLIC'], createRutina);
+        this.get('/createRutina', ['PUBLIC'], rutinaController.showCreateRutinaForm);
+
+        this.post('/api/createRutina', ['PUBLIC'], rutinaController.createRutina);
     }
 }
 

@@ -2,10 +2,16 @@ import * as rutinaService from '../services/rutinaService.js';
 
 export const createRutina = async (req, res) => {
     try {
-        const rutina = await rutinaService.createRutina(req.body.id_rutina, req.body.clasificacion, req.body.id_cliente, req.body.id_entrenador, req.body.fecha_rutina, req.body.ejercicios);
+        const {id_rutina, clasificacion, id_cliente, id_entrenador, fecha_rutina, ejercicios} = req.body;
+        console.log(req)
+        const rutina = await rutinaService.createRutina(id_rutina, clasificacion, id_cliente, id_entrenador, fecha_rutina, ejercicios);
         res.status(200).json(rutina);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: error.message });
     }
+}
+
+export const showCreateRutinaForm = (req, res) => {
+    res.render('createRutina', { title: 'Create Rutina Page'});
 }

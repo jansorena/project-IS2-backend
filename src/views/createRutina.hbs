@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rellenar Matriz</title>
+</head>
+<body>
+
+<h2>Rellenar Matriz</h2>
+
+<form id="formulario">
+
+    <label for="id_rutina">ID Rutina:</label>
+    <input type="number" id="id_rutina" name="id_rutina" required><br>
+
+    <label for="clasificacion">Clasificacion:</label>
+    <input type="text" id="clasificacion" name="clasificacion" required><br>
+
+    <label for="id_cliente">ID Cliente</label>
+    <input type="number" id="id_cliente" name="id_cliente" required><br>
+
+    <label for="id_entrenador">ID Entrenador</label>
+    <input type="number" id="id_entrenador" name="id_entrenador" required><br>
+
+    <label for="fecha_rutina">Fecha rutina:</label>
+    <input type="date" id="fecha_rutina" name="fecha_rutina" required><br>
+ 
+    <label for="filas">Número de ejercicios:</label>
+    <input type="number" id="filas" name="filas" required><br>
+
+    <button type="button" onclick="crearMatriz()">Crear Matriz</button><br>
+
+    <div id="matrizContainer"></div>
+
+    <button type="button" onclick="enviarDatos()">Enviar</button>
+</form>
+
+<script>
+    function crearMatriz() {
+        const filas = parseInt(document.getElementById('filas').value);
+        const columnas = 4;
+        const matrizContainer = document.getElementById('matrizContainer');
+        
+        matrizContainer.innerHTML = ''; // Limpiar el contenido anterior
+        
+        for (let i = 0; i < filas; i++) {
+            for (let j = 0; j < columnas; j++) {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.name = `matriz[${i}][${j}]`; // Nombre del campo con índices de la matriz
+            input.placeholder = `[${i}][${j}]`; // Placeholder con índices de la matriz
+            matrizContainer.appendChild(input);
+            }
+            matrizContainer.appendChild(document.createElement('br')); // Salto de línea entre filas
+        }
+    }
+
+    function enviarDatos() {
+    
+
+
+    // Obtener los valores de los campos del formulario
+        const id_rutina = document.getElementById("id_rutina").value;
+        const clasificacion = document.getElementById("clasificacion").value;
+        const id_cliente = document.getElementById("id_cliente").value;
+        const id_entrenador = document.getElementById("id_entrenador").value;
+        const fecha_rutina = document.getElementById("fecha_rutina").value;
+        
+        const matrizInputs = document.querySelectorAll('#matrizContainer input');
+        const ejercicios = [];
+        const columnas = 4;
+        let filaActual = [];
+
+        matrizInputs.forEach((input, index) => {
+            filaActual.push(input.value);
+            if ((index + 1) % columnas === 0) {
+                ejercicios.push(filaActual);
+                filaActual = [];
+            }
+        });
+        /*
+        // Crear un objeto FormData para enviar los datos del formulario
+        let formData = new FormData();
+        formData.append("id_rutina", id_rutina);
+        formData.append("clasificacion", clasificacion);
+        formData.append("id_cliente", id_cliente);
+        formData.append("id_entrenador", id_entrenador);
+        formData.append("fecha_rutina", fecha_rutina);
+        //formData.append("ejercicios", ejercicios);
+        */
+
+        const data = JSON.stringify({
+            "id_rutina": id_rutina,
+            "clasificacion": clasificacion,
+            "id_cliente": id_cliente,
+            "id_entrenador": id_entrenador,
+            "fecha_rutina": fecha_rutina,
+            "ejercicios": ejercicios
+        });
+
+        console.log(data.ejercicios)
+        
+    // Enviar una solicitud POST utilizando fetch
+        fetch("/rutina/api/createRutina", {
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': data.length
+            },
+            body: data
+            
+        });
+}
+</script>
+
+</body>
+</html>
