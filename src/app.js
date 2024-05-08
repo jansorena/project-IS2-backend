@@ -8,6 +8,8 @@ import initPassport from "./config/passport.config.js";
 import viewRoutes from './routes/viewRoutes.js';
 import cookieParser from 'cookie-parser';
 import clienteRoutes from './routes/clienteRoutes.js';
+import rutinaRoutes from './routes/rutinaRoutes.js';
+import evaluacionRoutes from './routes/evaluacionRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -50,5 +52,7 @@ initPassport();
 app.use('/', viewRoutes);
 app.use('/auth', authRoutes);
 app.use('/api/clientes', clienteRoutes);
+app.use('/rutina', rutinaRoutes);
+app.use('/evaluacion', evaluacionRoutes);
 
 
