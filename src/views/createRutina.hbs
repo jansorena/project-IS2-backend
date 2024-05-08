@@ -58,9 +58,6 @@
 
     function enviarDatos() {
     
-
-
-    // Obtener los valores de los campos del formulario
         const id_rutina = document.getElementById("id_rutina").value;
         const clasificacion = document.getElementById("clasificacion").value;
         const id_cliente = document.getElementById("id_cliente").value;
@@ -79,16 +76,6 @@
                 filaActual = [];
             }
         });
-        /*
-        // Crear un objeto FormData para enviar los datos del formulario
-        let formData = new FormData();
-        formData.append("id_rutina", id_rutina);
-        formData.append("clasificacion", clasificacion);
-        formData.append("id_cliente", id_cliente);
-        formData.append("id_entrenador", id_entrenador);
-        formData.append("fecha_rutina", fecha_rutina);
-        //formData.append("ejercicios", ejercicios);
-        */
 
         const data = JSON.stringify({
             "id_rutina": id_rutina,
@@ -101,7 +88,6 @@
 
         console.log(data.ejercicios)
         
-    // Enviar una solicitud POST utilizando fetch
         fetch("/rutina/api/createRutina", {
             method: "post",
             headers: {
