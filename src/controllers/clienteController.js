@@ -10,7 +10,6 @@ export const getAllClientes = async (req, res) => {
     }
 }
 
-
 // Controlador para obtener todas las rutinas de un cliente específico
 export const getRutinasByClienteId = async (req, res) => {
     try {
