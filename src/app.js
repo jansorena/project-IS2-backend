@@ -27,6 +27,9 @@ app.use(passport.initialize());
 initPassport();
 
 // Routes
+app.get('/', (req, res) => {
+    res.send('Backend para la app de Gimnasio');
+});
 app.use('/auth', authRoutes);
 app.use('/api/clientes', clienteRoutes);
 app.use('/rutina', rutinaRoutes);
