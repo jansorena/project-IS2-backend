@@ -47,14 +47,27 @@ INSERT INTO tiene (id_rutina, id_cliente) VALUES
 (4, 4),
 (5, 5);
 
+-- Asociar circuitos con rutinas
+INSERT INTO contiene (id_rutina, id_circuito, descanso) VALUES
+(20, 7, '1 minuto'),
+(20, 10, '2 minutos'),
+(21, 9, '3 minutos'),
+(21, 8, '4 minutos'),
+(22, 6, '5 minutos');
 
--- Asociar ejercicios con rutinas
-INSERT INTO contiene (id_rutina, id_ejercicio, repeticiones, series, secuencia) VALUES
-(1, 1, 10, 3, 1),
-(1, 2, 8, 3, 2),
-(2, 3, 6, 4, 1),
-(2, 4, 12, 2, 2),
-(3, 5, 15, 3, 1);
+-- Asociar ejercicios con circuitos
+INSERT INTO compone (id_ejercicio, id_circuito, series, frecuencia, orden, descanso) VALUES
+(41, 6, 3, '3 min', 1, '1 minuto'),
+(42, 6, 4, '3 min', 2, '1 minuto'),
+(43, 6, 3, '3 min', 3, '1 minuto'),
+(44, 7, 3, '45 seg', 1, '1 minuto'),
+(45, 7, 4, '45 seg', 2, '1 minuto'),
+(46, 7, 3, '2 min', 3, '1 minuto'),
+(47, 8, 3, '2 min', 1, '1 minuto'),
+(48, 8, 4, '2 min', 2, '1 minuto'),
+(49, 9, 3, '1 min', 3, '1 minuto'),
+(50, 10, 3, '1 min', 1, '1 minuto');
+
 
 -- Crear evaluaciones (simplificado)
 INSERT INTO evaluacion (peso, estatura, grasa, masa_muscular, agua, masa_osea, edad, experiencia) VALUES
