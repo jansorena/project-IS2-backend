@@ -3,7 +3,7 @@ import * as evaluacionController from '../controllers/evaluacionController.js';
 
 class evaluacionRouter extends CustomRouter {
     init() {
-        this.post('/api/createEvaluacion', ['PUBLIC'], evaluacionController.createEvalucion);
+        this.post('/api/evaluacion', ['PUBLIC'], evaluacionController.createEvalucion);
     }
 }
 
