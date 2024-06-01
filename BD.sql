@@ -38,16 +38,35 @@ CREATE TABLE rutina (
     clasificacion VARCHAR(100) NOT NULL
 );
 
+-- Creación de la tabla circuito
+CREATE TABLE circuito (
+    id_circuito INTEGER PRIMARY KEY AUTOINCREMENT,
+    puntuacion VARCHAR(100),
+    repeticiones INTEGER NOT NULL,
+    observaciones VARCHAR(500)
+);
+
 -- Creación de la tabla contiene
 CREATE TABLE contiene (
     id_rutina INTEGER,
-    id_ejercicio INTEGER,
-    repeticiones INTEGER NOT NULL,
-    series INTEGER NOT NULL,
-    secuencia INTEGER NOT NULL,
-    PRIMARY KEY (id_rutina, id_ejercicio),
+    id_circuito INTEGER,
+    descanso VARCHAR(100) DEFAULT 'N/A',
+    PRIMARY KEY (id_rutina, id_circuito),
     FOREIGN KEY (id_rutina) REFERENCES rutina(id_rutina) ON DELETE CASCADE,
-    FOREIGN KEY (id_ejercicio) REFERENCES ejercicio(id_ejercicio) ON DELETE CASCADE
+    FOREIGN KEY (id_circuito) REFERENCES circuito(id_circuito) ON DELETE CASCADE
+);
+
+-- Creacion de la tabla compone
+CREATE TABLE compone (
+    id_ejercicio INTEGER,
+    id_circuito INTEGER,
+    series INTEGER DEFAULT 1,
+    frecuencia VARCHAR(100) NOT NULL,
+    orden INTEGER NOT NULL,
+    descanso VARCHAR(100) DEFAULT 'sin descanso',
+    PRIMARY KEY (id_ejercicio, id_circuito),
+    FOREIGN KEY (id_ejercicio) REFERENCES ejercicio(id_ejercicio) ON DELETE CASCADE,
+    FOREIGN KEY (id_circuito) REFERENCES circuito(id_circuito) ON DELETE CASCADE
 );
 
 -- Creación de la tabla evaluacion
@@ -76,15 +95,6 @@ CREATE TABLE tiene (
     id_cliente INTEGER,
     PRIMARY KEY (id_rutina, id_cliente),
     FOREIGN KEY (id_rutina) REFERENCES rutina(id_rutina) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
-);
-
--- Creación de la tabla posee
-CREATE TABLE posee (
-    id_evaluacion INTEGER,
-    id_cliente INTEGER,
-    PRIMARY KEY (id_evaluacion, id_cliente),
-    FOREIGN KEY (id_evaluacion) REFERENCES evaluacion(id_evaluacion) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
 );
 
