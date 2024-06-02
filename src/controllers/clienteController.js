@@ -58,3 +58,15 @@ export const addCliente = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const updateCliente = async (req, res) => {
+    try {
+        const clienteId = req.params.clienteId;
+        const clienteData = req.body;
+        const updatedCliente = await clienteService.updateCliente(clienteId, clienteData);
+        res.status(200).json(updatedCliente);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+}

@@ -32,6 +32,10 @@ export async function getClienteById(clienteId) {
     return await Cliente.findById(clienteId);
 }
 
+export async function updateCliente(clienteId, clienteData) {
+    return await Cliente.updateClienteById(clienteId, clienteData);
+}
+
 export async function getClienteDetalles(clienteId) {
     const result = await Cliente.findClienteById(clienteId);
 

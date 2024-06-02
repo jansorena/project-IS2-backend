@@ -56,6 +56,16 @@ class Cliente {
         return result.rows;
     }
 
+    static async updateClienteById(clienteId, clienteData) {
+        const { nombre, apellido, email, fecha_nacimiento, suscripcion, telefono} = clienteData;
+        console.log(nombre, apellido, email, fecha_nacimiento, suscripcion, telefono, clienteId)
+        const result = await db.execute({
+            sql: "UPDATE cliente SET nombre = ?, apellido = ?, email = ?, fecha_nacimiento = ?, suscripcion = ?, telefono = ? WHERE id_cliente = ? RETURNING *",
+            args: [nombre, apellido, email, fecha_nacimiento, suscripcion, telefono, clienteId],
+        });
+        return result.rows[0];
+    }
+
     static async findClienteById(clienteId) {
         const query = `
             SELECT 
