@@ -20,3 +20,37 @@ npm install
 ```bash 
 npm run dev
 ```
+
+## Estructura de directorios
+```
+src
+├── config
+│   ├── db.js
+│   ├── passport.config.js
+│   └── policies.js
+├── controllers
+│   ├── authController.js
+│   ├── clienteController.js
+│   ├── evaluacionController.js
+│   └── rutinaController.js
+├── middlewares
+│   └── handlePolicies.js
+├── models
+│   ├── clienteModel.js
+│   ├── evaluacionModel.js
+│   └── rutinaModel.js
+├── routes
+│   ├── authRoutes.js
+│   ├── clienteRoutes.js
+│   ├── CustomRouter.js
+│   ├── evaluacionRoutes.js
+│   └── rutinaRoutes.js
+├── services
+│   ├── clienteService.js
+│   ├── evaluacionService.js
+│   └── rutinaService.js
+├── utils
+│   ├── jwtUtils.js
+│   └── passwordUtils.js
+└── app.js
+```

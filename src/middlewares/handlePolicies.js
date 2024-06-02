@@ -19,7 +19,6 @@ const handlePolicies = (policies) => {
                     return next(err);
                 }
                 if (!user) {
-                    // return res.unauthorized('Authentication failed.').redirect('/auth/login');
                     return res.redirect('/auth/login');
                 }
                 req.user = user; // Almacenar el usuario autenticado en la solicitud

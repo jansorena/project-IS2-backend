@@ -3,9 +3,7 @@ import * as rutinaController from '../controllers/rutinaController.js';
 
 class rutinaRouter extends CustomRouter {
     init() {
-        this.get('/createRutina', ['PUBLIC'], rutinaController.showCreateRutinaForm);
-
-        this.post('/api/createRutina', ['PUBLIC'], rutinaController.createRutina);
+        this.post('/api/rutina', ['PUBLIC'], rutinaController.createRutina);
     }
 }
 
