@@ -6,7 +6,8 @@ class AuthRouter extends CustomRouter {
     init() {
         this.get("/logout", ['AUTHENTICATED'], authController.logout);
         this.get("/profile", ['AUTHENTICATED'], authController.getProfile);
-        this.post("/api/login", ['PUBLIC'], passport.authenticate("login", { session: false, failureRedirect: "/auth/login" }), authController.login);
+        this.post("/login", ['PUBLIC'], passport.authenticate("login", { session: false }), authController.login);
+        this.post("/register", ['PUBLIC'], authController.register);
     }
 }
 

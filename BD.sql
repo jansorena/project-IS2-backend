@@ -1,19 +1,6 @@
--- Creación de la tabla cliente
-CREATE TABLE cliente (
-    id_cliente INTEGER PRIMARY KEY AUTOINCREMENT,
-    rut VARCHAR(20) UNIQUE,
-    nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
-    password TEXT,
-    fecha_nacimiento DATE,
-    suscripcion VARCHAR(50) DEFAULT 'mes' CHECK (suscripcion IN ('mes', 'trimestre', 'semestre', 'anual')),
-    telefono VARCHAR(20)
-);
-
--- Creación de la tabla entrenador
-CREATE TABLE entrenador (
-    id_entrenador INTEGER PRIMARY KEY AUTOINCREMENT,
+-- Crear tabla usuario
+CREATE TABLE usuario (
+    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
     rut VARCHAR(20) UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100),
@@ -21,10 +8,25 @@ CREATE TABLE entrenador (
     password TEXT,
     fecha_nacimiento DATE,
     telefono VARCHAR(20),
-    especialidad VARCHAR(100) NOT NULL
+    especialidad VARCHAR(100), -- Aplicable solo para entrenadores
+    role VARCHAR(20) NOT NULL CHECK (role IN ('administrador', 'entrenador')),
+    foto BLOB
 );
 
--- Creación de la tabla ejercicio
+-- Crear tabla cliente
+CREATE TABLE cliente (
+    id_cliente INTEGER PRIMARY KEY AUTOINCREMENT,
+    rut VARCHAR(20) UNIQUE,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    fecha_nacimiento DATE,
+    suscripcion VARCHAR(50) DEFAULT 'mes' CHECK (suscripcion IN ('mes', 'trimestre', 'semestre', 'anual')),
+    telefono VARCHAR(20),
+    foto BLOB
+);
+
+-- Crear tabla ejercicio
 CREATE TABLE ejercicio (
     id_ejercicio INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre VARCHAR(100) NOT NULL,
@@ -32,13 +34,13 @@ CREATE TABLE ejercicio (
     clasificacion VARCHAR(100) NOT NULL
 );
 
--- Creación de la tabla rutina
+-- Crear tabla rutina
 CREATE TABLE rutina (
     id_rutina INTEGER PRIMARY KEY AUTOINCREMENT,
     clasificacion VARCHAR(100) NOT NULL
 );
 
--- Creación de la tabla circuito
+-- Crear tabla circuito
 CREATE TABLE circuito (
     id_circuito INTEGER PRIMARY KEY AUTOINCREMENT,
     puntuacion VARCHAR(100),
@@ -46,7 +48,7 @@ CREATE TABLE circuito (
     observaciones VARCHAR(500)
 );
 
--- Creación de la tabla contiene
+-- Crear tabla contiene
 CREATE TABLE contiene (
     id_rutina INTEGER,
     id_circuito INTEGER,
@@ -56,7 +58,7 @@ CREATE TABLE contiene (
     FOREIGN KEY (id_circuito) REFERENCES circuito(id_circuito) ON DELETE CASCADE
 );
 
--- Creacion de la tabla compone
+-- Crear tabla compone
 CREATE TABLE compone (
     id_ejercicio INTEGER,
     id_circuito INTEGER,
@@ -69,7 +71,7 @@ CREATE TABLE compone (
     FOREIGN KEY (id_circuito) REFERENCES circuito(id_circuito) ON DELETE CASCADE
 );
 
--- Creación de la tabla evaluacion
+-- Crear tabla evaluacion
 CREATE TABLE evaluacion (
     id_evaluacion INTEGER PRIMARY KEY AUTOINCREMENT,
     peso FLOAT NOT NULL,
@@ -82,14 +84,14 @@ CREATE TABLE evaluacion (
     experiencia VARCHAR(15) DEFAULT 'principiante' CHECK (experiencia IN ('principiante', 'intermedio', 'avanzado'))
 );
 
--- Creación de la tabla maquina
+-- Crear tabla maquina
 CREATE TABLE maquina (
     id_maquina INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre VARCHAR(100) NOT NULL,
     estado VARCHAR(20) DEFAULT 'disponible' CHECK (estado IN ('disponible', 'mantencion', 'reparacion'))
 );
 
--- Creación de la tabla tiene
+-- Crear tabla tiene
 CREATE TABLE tiene (
     id_rutina INTEGER,
     id_cliente INTEGER,
@@ -98,19 +100,19 @@ CREATE TABLE tiene (
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
 );
 
--- Creación de la tabla realiza
+-- Crear tabla realiza
 CREATE TABLE realiza (
     id_entrenador INTEGER,
     id_cliente INTEGER,
     id_evaluacion INTEGER,
     fecha_evaluacion DATE NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY (id_entrenador, id_cliente, id_evaluacion),
-    FOREIGN KEY (id_entrenador) REFERENCES entrenador(id_entrenador),
+    FOREIGN KEY (id_entrenador) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_evaluacion) REFERENCES evaluacion(id_evaluacion)
 );
 
--- Creación de la tabla utiliza
+-- Crear tabla utiliza
 CREATE TABLE utiliza (
     id_ejercicio INTEGER,
     id_maquina INTEGER,
@@ -119,12 +121,12 @@ CREATE TABLE utiliza (
     FOREIGN KEY (id_maquina) REFERENCES maquina(id_maquina)
 );
 
--- Creación de la tabla crea
+-- Crear tabla crea
 CREATE TABLE crea (
     id_entrenador INTEGER,
     id_rutina INTEGER,
     fecha_rutina DATE NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY (id_entrenador, id_rutina),
-    FOREIGN KEY (id_entrenador) REFERENCES entrenador(id_entrenador),
+    FOREIGN KEY (id_entrenador) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_rutina) REFERENCES rutina(id_rutina)
 );
