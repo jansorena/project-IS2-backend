@@ -75,6 +75,7 @@ src
 | GET         | `/api/clientes`                    | Get all clients                   | `PUBLIC` |
 | GET         | `/api/clientes/:clienteId`         | Get details of a specific client  | `PUBLIC` |
 | GET         | `/api/clientes/:clienteId/rutinas` | Get routines of a specific client | `PUBLIC` |
+| POST        | `/api/clientes`                    | Create a new client               | `PUBLIC` |
 
 ## Rutina Endpoints
 
