@@ -11,7 +11,3 @@ export const createEvalucion = async (req, res) => {
     }
 };
 
-export const showCreateEvaluacionForm = (req, res) => {
-    res.render('createEvaluacion', { title: 'Create Evaluacion Page', style : 'createEvaluacion.css'});
-};
-

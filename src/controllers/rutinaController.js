@@ -10,7 +10,3 @@ export const createRutina = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
-
-export const showCreateRutinaForm = (req, res) => {
-    res.render('createRutina', { title: 'Create Rutina Page'});
-}

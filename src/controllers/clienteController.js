@@ -10,7 +10,6 @@ export const getAllClientes = async (req, res) => {
     }
 }
 
-
 // Controlador para obtener todas las rutinas de un cliente específico
 export const getRutinasByClienteId = async (req, res) => {
     try {
@@ -42,6 +41,18 @@ export const getClienteDetalles = async (req, res) => {
         const clienteId = parseInt(req.params.clienteId)
         const clienteDetalles = await clienteService.getClienteDetalles(clienteId);
         res.status(200).json(clienteDetalles);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Controlador para agregar un cliente
+export const addCliente = async (req, res) => {
+    try {
+        const cliente = req.body;
+        const newCliente = await clienteService.addCliente(cliente);
+        res.status(201).json(newCliente);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: error.message });

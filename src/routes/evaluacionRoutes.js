@@ -1,11 +1,9 @@
 import CustomRouter from './CustomRouter.js';
 import * as evaluacionController from '../controllers/evaluacionController.js';
 
-class evaluacionRouter extends CustomRouter{
+class evaluacionRouter extends CustomRouter {
     init() {
-        this.get('/createEvaluacion', ['PUBLIC'], evaluacionController.showCreateEvaluacionForm);
-
-        this.post('/api/createEvaluacion', ['PUBLIC'], evaluacionController.createEvalucion);
+        this.post('/api/evaluacion', ['PUBLIC'], evaluacionController.createEvalucion);
     }
 }
 
