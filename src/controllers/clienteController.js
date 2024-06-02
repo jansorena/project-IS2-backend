@@ -46,3 +46,15 @@ export const getClienteDetalles = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Controlador para agregar un cliente
+export const addCliente = async (req, res) => {
+    try {
+        const cliente = req.body;
+        const newCliente = await clienteService.addCliente(cliente);
+        res.status(201).json(newCliente);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
