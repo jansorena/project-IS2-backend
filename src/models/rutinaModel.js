@@ -1,46 +1,69 @@
 import db from "../config/db.js";
 
 class Rutina {
-    static async create(id_rutina, clasificacion, id_cliente, id_usuario, fecha_rutina, circuitos){
-        let queryCircuito = 'INSERT INTO circuito (id_circuito, repeticiones) VALUES ';
-        let queryContiene = 'INSERT INTO contiene (id_rutina, id_circuito, descanso) VALUES ';
-        circuitos.forEach((circuito,index) => {
-            queryCircuito += `(${circuito.id_circuito}, ${circuito.repeticiones})`;
-            if(circuito.descanso)
-                queryContiene += `(${id_rutina}, ${circuito.id_circuito}, '${circuito.descanso}')`;
-            else
-                queryContiene += `(${id_rutina}, ${circuito.id_circuito}, "N/A")`;
-            if (index < circuitos.length - 1) {
-                queryCircuito += ', ';
-                queryContiene += ', ';
-            }
+    static async createRutina(clasificacion){
+        const result = await db.execute({
+            sql: "INSERT INTO rutina (clasificacion) VALUES (?) RETURNING *",
+            args: [clasificacion],
         });
-        
-        let queryCompone = 'INSERT INTO compone (id_circuito, id_ejercicio, series, frecuencia, orden, descanso) VALUES ';
-        circuitos.forEach((circuito, index) => {
-            circuito.ejercicios.forEach((ejercicio, ejercicioIndex) => {
-                queryCompone += `(${circuito.id_circuito}, ${ejercicio.id_ejercicio}, ${ejercicio.series}, '${ejercicio.frecuencia}', ${ejercicio.orden}, '${ejercicio.descan}')`;
-                if (ejercicioIndex < circuito.ejercicios.length - 1) {
-                    queryCompone += ', ';
-                }
-            });
-            if (index < circuitos.length - 1) {
-                queryCompone += ', ';
-            }
-        });
-
-        const result = await db.batch([
-            `INSERT INTO rutina (id_rutina, clasificacion) VALUES (${id_rutina}, '${clasificacion}')`,
-            `INSERT INTO crea (id_entrenador, id_rutina, fecha_rutina) VALUES (${id_usuario}, ${id_rutina}, '${fecha_rutina}')`,
-            `INSERT INTO tiene (id_rutina, id_cliente) VALUES (${id_rutina} ,${id_cliente})`,
-            queryCircuito,
-            queryContiene,
-            queryCompone,
-        ],"write")
-        
-        return result.rows;
-        
+        return result.rows[0];
     }
+
+    static async createCircuito(circuitos) {
+        const promises = circuitos.map(async (circuito) => {
+            const repeticiones = circuito.repeticiones;
+            const result = await db.execute({
+                sql: "INSERT INTO circuito (repeticiones) VALUES (?) RETURNING *",
+                args: [repeticiones],
+            });
+            return result.rows[0];
+        });
+    
+        const results = await Promise.all(promises);
+        return results;
+    }
+    
+    static async createCrea(id_entrenador, id_rutina){
+        const result = await db.execute({
+            sql: "INSERT INTO crea (id_entrenador, id_rutina) VALUES (?, ?) RETURNING *",
+            args: [id_entrenador, id_rutina],
+        });
+        return result.rows[0];
+    }
+
+    static async createTiene(id_rutina, id_cliente){
+        const result = await db.execute({
+            sql: "INSERT INTO tiene (id_rutina, id_cliente) VALUES (?, ?) RETURNING *",
+            args: [id_rutina, id_cliente],
+        });
+        return result.rows[0];
+    }
+
+    static async createContiene(id_rutina, id_circuito, circuito){
+        console.log(circuito.descanso);
+        if(circuito.descanso){
+            const descanso = circuito.descanso;
+            const result = await db.execute({
+                sql: "INSERT INTO contiene (id_rutina, id_circuito, descanso) VALUES (?, ?, ?) RETURNING *",
+                args: [id_rutina, id_circuito, descanso],
+            });
+            return result.rows[0];
+        }else{
+            const result = await db.execute({
+                sql: "INSERT INTO contiene (id_rutina, id_circuito) VALUES (?, ?) RETURNING *",
+                args: [id_rutina, id_circuito],
+            });
+            return result.rows[0];
+        }        
+    }
+
+    static async createCompone(id_circuito, id_ejercicio, series, frecuencia, orden, descanso){
+        const result = await db.execute({
+            sql: "INSERT INTO compone (id_circuito, id_ejercicio, series, frecuencia, orden, descanso) VALUES (?, ?, ?, ?, ?, ?) RETURNING *",
+            args: [id_circuito, id_ejercicio, series, frecuencia, orden, descanso],
+        });
+        return result.rows[0];
+    }    
 }
 
 export default Rutina;
