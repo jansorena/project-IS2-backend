@@ -6,23 +6,46 @@ class Rutina {
 
         try {
 
-            const resultEjercicio = await db.execute({
+            const result = await db.execute({
                 sql: "SELECT id_ejercicio as value, nombre as label FROM ejercicio",
                 args: [],
             });
-            console.log('ResultEjercicio:', resultEjercicio);
-            // Verificar que result.rows no sea undefined o null
-            if (!resultEjercicio || !resultEjercicio.rows) {
+            console.log('Result:', result);
+ 
+            if (!result || !result.rows) {
                 console.error('No se encontraron filas en la consulta a ejercicio.');
-                return [];  // Retorna un arreglo vacío si no hay resultados en ejercicio
+                return [];
             }
-            return resultEjercicio.rows;
+            return result.rows;
 
         } catch (error) {
-            console.error('Error ejecutando getData_Id:', error);
-            throw new Error('Error ejecutando getData_Id');
+            console.error('Error ejecutando getEjercicios_id:', error);
+            throw new Error('Error ejecutando getEjercicios_id');
         }
     }
+
+    static async getClientes_id(){
+
+        try {
+
+            const result = await db.execute({
+                sql: "SELECT id_cliente as value, CONCAT(nombre, ' ', apellido) as label FROM cliente",
+                args: [],
+            });
+            console.log('Result:', result);
+ 
+            if (!result || !result.rows) {
+                console.error('No se encontraron filas en la consulta a cliente.');
+                return [];
+            }
+            return result.rows;
+
+        } catch (error) {
+            console.error('Error ejecutando getClientes_id:', error);
+            throw new Error('Error ejecutando getClientes_id');
+        }
+    }
+    
 
     static async create(id_rutina, clasificacion, id_cliente, id_usuario, fecha_rutina, circuitos){
         let queryCircuito = 'INSERT INTO circuito (id_circuito, repeticiones) VALUES ';

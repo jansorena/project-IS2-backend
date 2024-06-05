@@ -11,10 +11,11 @@ export const createRutina = async (req, res) => {
     }
 }
 
-export const getEjercicios= async (req, res) => {
+export const getData= async (req, res) => {
     try {
         const ejercicios = await rutinaService.getEjercicios_id();
-        res.status(200).json({ejercicios})
+        const clientes = await rutinaService.getClientes_id();
+        res.status(200).json({clientes ,ejercicios})
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: error.message});

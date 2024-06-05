@@ -7,3 +7,7 @@ export async function createRutina(id_rutina, clasificacion, id_cliente, id_usua
 export async function getEjercicios_id(){
     return await Rutina.getEjercicios_id();
 }
+
+export async function getClientes_id(){
+    return await Rutina.getClientes_id();
+}
