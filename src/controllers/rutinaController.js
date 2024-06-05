@@ -10,3 +10,13 @@ export const createRutina = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const getEjercicios= async (req, res) => {
+    try {
+        const ejercicios = await rutinaService.getEjercicios_id();
+        res.status(200).json({ejercicios})
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message});
+    }
+}

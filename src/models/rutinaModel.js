@@ -1,6 +1,29 @@
 import db from "../config/db.js";
 
 class Rutina {
+
+    static async getEjercicios_id(){
+
+        try {
+
+            const resultEjercicio = await db.execute({
+                sql: "SELECT id_ejercicio as value, nombre as label FROM ejercicio",
+                args: [],
+            });
+            console.log('ResultEjercicio:', resultEjercicio);
+            // Verificar que result.rows no sea undefined o null
+            if (!resultEjercicio || !resultEjercicio.rows) {
+                console.error('No se encontraron filas en la consulta a ejercicio.');
+                return [];  // Retorna un arreglo vacío si no hay resultados en ejercicio
+            }
+            return resultEjercicio.rows;
+
+        } catch (error) {
+            console.error('Error ejecutando getData_Id:', error);
+            throw new Error('Error ejecutando getData_Id');
+        }
+    }
+
     static async create(id_rutina, clasificacion, id_cliente, id_usuario, fecha_rutina, circuitos){
         let queryCircuito = 'INSERT INTO circuito (id_circuito, repeticiones) VALUES ';
         let queryContiene = 'INSERT INTO contiene (id_rutina, id_circuito, descanso) VALUES ';
