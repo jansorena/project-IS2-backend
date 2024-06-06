@@ -10,10 +10,14 @@ class Usuario {
     }
 
     static async findById(usuarioId) {
+        // Convertir a número para asegurarse de que es finito
+        const id = Number(usuarioId);
+        if (!Number.isFinite(id)) {
+            throw new Error("Invalid user ID");
+        }
         const result = await db.execute({
             sql: "SELECT * FROM usuario WHERE id_usuario = ?",
-            args: [usuarioId],
-
+            args: [id],
         });
         return result.rows[0];
     }

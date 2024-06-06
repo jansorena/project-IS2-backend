@@ -10,7 +10,7 @@ export const getAllClientes = async (req, res) => {
     }
 }
 
-// Controlador para obtener todas las rutinas de un cliente específico
+// Controlador para obtener todas las rutinas con sus circuitos y ejercicios asociados a un cliente
 export const getRutinasByClienteId = async (req, res) => {
     try {
         const clienteId = req.params.clienteId;  // Asume que el ID viene como parámetro de la ruta
@@ -35,18 +35,6 @@ export const getClienteById = async (req, res) => {
     }
 };
 
-// Controlador para obtener un cliente con sus rutinas y ejercicios
-export const getClienteDetalles = async (req, res) => {
-    try {
-        const clienteId = parseInt(req.params.clienteId)
-        const clienteDetalles = await clienteService.getClienteDetalles(clienteId);
-        res.status(200).json(clienteDetalles);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: error.message });
-    }
-};
-
 // Controlador para agregar un cliente
 export const addCliente = async (req, res) => {
     try {
@@ -59,6 +47,7 @@ export const addCliente = async (req, res) => {
     }
 };
 
+// Controlador para actualizar un cliente
 export const updateCliente = async (req, res) => {
     try {
         const clienteId = req.params.clienteId;

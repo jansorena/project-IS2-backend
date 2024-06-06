@@ -9,7 +9,7 @@ export const login = async (req, res) => {
         if (!req.user) {
             return res.status(401).json({ success: false, message: 'Unauthorized' });
         }
-        const token = jwt.sign({ id: req.user.id, role: req.user.role }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: req.user.id_usuario, role: req.user.role }, JWT_SECRET, { expiresIn: '1h' }); // Usa req.user.id_usuario
         res.cookie('token', token, { httpOnly: true, secure: false }).json({ success: true, token });
     } catch (error) {
         console.error('Login error:', error);
@@ -23,8 +23,7 @@ export const logout = (req, res) => {
 };
 
 export const getProfile = (req, res) => {
-    const { nombre, apellido, email, role, id } = req.user;
-    res.json({ nombre, apellido, email, role, id });
+    res.json(req.user);
 };
 
 export const register = async (req, res) => {

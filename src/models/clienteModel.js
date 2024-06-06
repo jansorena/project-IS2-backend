@@ -8,10 +8,9 @@ class Cliente {
                 args: [],
             });
             console.log('Result:', result);
-            // Verificar que result.rows no sea undefined o null
             if (!result || !result.rows) {
                 console.error('No se encontraron filas en la consulta.');
-                return [];  // Retorna un arreglo vacío si no hay resultados
+                return [];
             }
             return result.rows;
         } catch (error) {
@@ -44,20 +43,8 @@ class Cliente {
         return result.rows[0];
     }
 
-    static async findRutinasByClienteId(clienteId) {
-        const result = await db.execute({
-            sql: `
-                SELECT r.* FROM rutina r
-                INNER JOIN tiene t ON r.id_rutina = t.id_rutina
-                WHERE t.id_cliente = ?
-            `,
-            args: [clienteId],
-        });
-        return result.rows;
-    }
-
     static async updateClienteById(clienteId, clienteData) {
-        const { nombre, apellido, email, fecha_nacimiento, suscripcion, telefono} = clienteData;
+        const { nombre, apellido, email, fecha_nacimiento, suscripcion, telefono } = clienteData;
         console.log(nombre, apellido, email, fecha_nacimiento, suscripcion, telefono, clienteId)
         const result = await db.execute({
             sql: "UPDATE cliente SET nombre = ?, apellido = ?, email = ?, fecha_nacimiento = ?, suscripcion = ?, telefono = ? WHERE id_cliente = ? RETURNING *",
@@ -66,40 +53,38 @@ class Cliente {
         return result.rows[0];
     }
 
-    static async findClienteById(clienteId) {
-        const query = `
-            SELECT 
-                c.id_cliente,
-                c.rut,
-                c.nombre,
-                c.apellido,
-                c.email,
-                c.fecha_nacimiento,
-                c.suscripcion,
-                c.telefono,
-                r.id_rutina,
-                r.clasificacion AS clasificacion_rutina,
-                e.id_ejercicio,
-                e.nombre AS ejercicio_nombre,
-                e.descripcion,
-                e.clasificacion AS ejercicio_clasificacion,
-                ce.series,
-                ce.frecuencia,
-                ce.orden,
-                ce.descanso AS descanso_circuito
-            FROM 
-                cliente c
-            LEFT JOIN tiene t ON c.id_cliente = t.id_cliente
-            LEFT JOIN rutina r ON t.id_rutina = r.id_rutina
-            LEFT JOIN contiene ct ON r.id_rutina = ct.id_rutina
-            LEFT JOIN compone ce ON ct.id_circuito = ce.id_circuito
-            LEFT JOIN ejercicio e ON ce.id_ejercicio = e.id_ejercicio
-            WHERE
-                c.id_cliente = ?
-        `;
+    static async findRutinasByClienteId(clienteId) {
         const result = await db.execute({
-            sql: query,
+            sql: `
+                SELECT r.* FROM rutina r
+                JOIN tiene t ON r.id_rutina = t.id_rutina
+                WHERE t.id_cliente = ?
+            `,
             args: [clienteId],
+        });
+        return result.rows;
+    }
+
+    static async findCircuitosByRutinaId(rutinaId) {
+        const result = await db.execute({
+            sql: `
+                SELECT c.* FROM circuito c
+                JOIN contiene con ON c.id_circuito = con.id_circuito
+                WHERE con.id_rutina = ?
+            `,
+            args: [rutinaId],
+        });
+        return result.rows;
+    }
+
+    static async findEjerciciosByCircuitoId(circuitoId) {
+        const result = await db.execute({
+            sql: `
+                SELECT e.* FROM ejercicio e
+                JOIN compone com ON e.id_ejercicio = com.id_ejercicio
+                WHERE com.id_circuito = ?
+            `,
+            args: [circuitoId],
         });
         return result.rows;
     }

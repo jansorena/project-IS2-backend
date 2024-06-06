@@ -6,8 +6,7 @@ export const getUserByEmail = async (email) => {
 };
 
 export const getUserById = async (id) => {
-    const user = await Usuario.findById(id);
-    return user;
+    return await Usuario.findById(id);
 };
 
 export const createUser = async (userData) => {
