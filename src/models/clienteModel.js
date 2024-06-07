@@ -56,8 +56,10 @@ class Cliente {
     static async findRutinasByClienteId(clienteId) {
         const result = await db.execute({
             sql: `
-                SELECT r.* FROM rutina r
+                SELECT r.*, c.fecha_rutina 
+                FROM rutina r
                 JOIN tiene t ON r.id_rutina = t.id_rutina
+                JOIN crea c ON r.id_rutina = c.id_rutina
                 WHERE t.id_cliente = ?
             `,
             args: [clienteId],
@@ -68,7 +70,8 @@ class Cliente {
     static async findCircuitosByRutinaId(rutinaId) {
         const result = await db.execute({
             sql: `
-                SELECT c.* FROM circuito c
+                SELECT c.*, con.descanso 
+                FROM circuito c
                 JOIN contiene con ON c.id_circuito = con.id_circuito
                 WHERE con.id_rutina = ?
             `,
