@@ -33,6 +33,7 @@ export async function createRutina(clasificacion, id_cliente, id_usuario, circui
         const circuitoResult = {
             id_circuito,
             repeticiones: circuito.repeticiones,
+            observaciones: circuito.observaciones,
             descanso, // Agregar el descanso al circuito
             ejercicios: []
         };

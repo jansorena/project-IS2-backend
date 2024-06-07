@@ -14,9 +14,10 @@ class Rutina {
     static async createCircuito(circuitos) {
         const promises = circuitos.map(async (circuito) => {
             const repeticiones = circuito.repeticiones;
+            const observaciones = circuito.observaciones;
             const result = await db.execute({
-                sql: "INSERT INTO circuito (repeticiones) VALUES (?) RETURNING *",
-                args: [repeticiones],
+                sql: "INSERT INTO circuito (repeticiones,observaciones) VALUES (?, ?) RETURNING *",
+                args: [repeticiones, observaciones],
             });
             return result.rows[0];
         });
