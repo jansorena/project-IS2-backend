@@ -80,7 +80,13 @@ class Cliente {
     static async findEjerciciosByCircuitoId(circuitoId) {
         const result = await db.execute({
             sql: `
-                SELECT e.* FROM ejercicio e
+                SELECT 
+                    e.*, 
+                    com.series, 
+                    com.frecuencia, 
+                    com.orden, 
+                    com.descanso 
+                FROM ejercicio e
                 JOIN compone com ON e.id_ejercicio = com.id_ejercicio
                 WHERE com.id_circuito = ?
             `,
@@ -88,6 +94,7 @@ class Cliente {
         });
         return result.rows;
     }
+
 }
 
 export default Cliente;
