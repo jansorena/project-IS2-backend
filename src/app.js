@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 });
 app.use('/auth', authRoutes);
 app.use('/api/clientes', clienteRoutes);
-app.use('/rutina', rutinaRoutes);
+app.use('/api/rutina', rutinaRoutes);
 app.use('/evaluacion', evaluacionRoutes);
 
 
