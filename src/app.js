@@ -5,6 +5,7 @@ import passport from "passport";
 import initPassport from "./config/passport.config.js";
 import authRoutes from './routes/authRoutes.js';
 import clienteRoutes from './routes/clienteRoutes.js';
+import usuarioRoutes from './routes/usuarioRoutes.js';
 import rutinaRoutes from './routes/rutinaRoutes.js';
 import evaluacionRoutes from './routes/evaluacionRoutes.js';
 
@@ -46,6 +47,7 @@ app.get('/', (req, res) => {
     res.send('Backend para la app de Gimnasio 💪😁👍');
 });
 app.use('/auth', authRoutes);
+app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/clientes', clienteRoutes);
 app.use('/api/rutina', rutinaRoutes);
 app.use('/evaluacion', evaluacionRoutes);

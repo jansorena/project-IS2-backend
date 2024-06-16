@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { hashPassword } from '../utils/passwordUtils.js';
-import { createUser } from '../services/userService.js';
+import { createUser } from '../services/usuarioService.js';
 
 const JWT_SECRET = process.env.PRIVATE_KEY;
 

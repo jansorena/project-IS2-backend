@@ -2,7 +2,7 @@ import passport from 'passport';
 import { comparePassword } from '../utils/passwordUtils.js';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
-import { getUserByEmail, getUserById } from '../services/userService.js';
+import { getUserByEmail, getUserById } from '../services/usuarioService.js';
 
 const JWT_SECRET = process.env.PRIVATE_KEY;
 
