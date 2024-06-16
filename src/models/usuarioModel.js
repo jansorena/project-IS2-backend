@@ -24,7 +24,8 @@ class Usuario {
 
 
     static async create(usuarioData) {
-        const { rut, nombre, apellido, email, fecha_nacimiento, telefono, foto, role, especialidad } = usuarioData;
+        const { rut, nombre, apellido, email, fecha_nacimiento, telefono, foto, especialidad } = usuarioData;
+        const role = "entrenador"
         const result = await db.execute({
             sql: "INSERT INTO usuario (rut, nombre, apellido, email, fecha_nacimiento, telefono, foto, role, especialidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *",
             args: [rut, nombre, apellido, email, fecha_nacimiento, telefono, foto, role, especialidad],
