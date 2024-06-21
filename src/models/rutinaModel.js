@@ -80,9 +80,10 @@ class Rutina {
             const repeticiones = circuito.repeticiones;
             const observaciones = circuito.observaciones;
             const puntuacion = circuito.puntuacion;
+            const estado = 0;
             const result = await db.execute({
-                sql: "UPDATE circuito SET repeticiones = ?, observaciones = ?, puntuacion = ? WHERE id_circuito = ? RETURNING *",
-                args: [repeticiones, observaciones, puntuacion, circuito.id_circuito],
+                sql: "UPDATE circuito SET repeticiones = ?, observaciones = ?, puntuacion = ?, estado = ? WHERE id_circuito = ? RETURNING *",
+                args: [repeticiones, observaciones, puntuacion, estado, circuito.id_circuito],
             });
             return result.rows[0];
         });

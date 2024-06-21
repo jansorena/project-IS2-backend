@@ -45,7 +45,8 @@ CREATE TABLE circuito (
     id_circuito INTEGER PRIMARY KEY AUTOINCREMENT,
     puntuacion VARCHAR(100),
     repeticiones INTEGER NOT NULL,
-    observaciones VARCHAR(500)
+    observaciones VARCHAR(500),
+    estado BOOLEAN DEFAULT 1 CHECK (estado IN (0, 1))
 );
 
 -- Crear tabla contiene
