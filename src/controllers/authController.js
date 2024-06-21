@@ -10,10 +10,10 @@ export const login = async (req, res) => {
             return res.status(401).json({ success: false, message: 'Unauthorized' });
         }
         const token = jwt.sign({ id: req.user.id_usuario, role: req.user.role }, JWT_SECRET, { expiresIn: '1h' }); // Usa req.user.id_usuario
-        res.cookie('token', token, { httpOnly: true, secure: false }).json({ success: true, token });
+        res.cookie('token', token, { httpOnly: true, secure: false }).json({ success: true, token, user: req.user });
     } catch (error) {
         console.error('Login error:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error', user: req.user });
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 };
 
