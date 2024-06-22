@@ -56,6 +56,22 @@ class Maquina {
             throw new Error('Error ejecutando getAllmaquinas');
         }
     }
+
+    static async UpdateMaquina(id_maquina, estado){
+        try {
+            const result = await db.execute({
+                sql: "UPDATE maquina SET estado = ? WHERE id_maquina = ?",
+                args: [estado,id_maquina],
+            });
+
+            return result;
+        } catch (error) {
+            console.error('Error ejecutando UpdateMaquina:', error);
+            throw new Error('Error ejecutando UpdateMaquina');
+        }
+
+        
+    }
 }
 
 export default Maquina;
