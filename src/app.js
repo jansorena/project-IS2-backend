@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoutes.js';
 import clienteRoutes from './routes/clienteRoutes.js';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import rutinaRoutes from './routes/rutinaRoutes.js';
+import maquinaRoutes from './routes/maquinaRoutes.js';
 import evaluacionRoutes from './routes/evaluacionRoutes.js';
 
 const app = express();
@@ -50,6 +51,7 @@ app.use('/auth', authRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/clientes', clienteRoutes);
 app.use('/api/rutina', rutinaRoutes);
+app.use('/api/maquinas', maquinaRoutes)
 app.use('/evaluacion', evaluacionRoutes);
 
 
