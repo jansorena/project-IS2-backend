@@ -32,3 +32,15 @@ export const getData= async (req, res) => {
         res.status(500).json({ error: error.message});
     }
 }
+
+export const getRutinas = async (req, res) => {
+    try {
+        const id_rutina = req.params.id_rutina;
+        console.log(req);
+        const rutinas = await rutinaService.getRutinas(id_rutina);
+        res.status(200).json(rutinas);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+}

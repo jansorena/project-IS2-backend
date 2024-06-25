@@ -38,6 +38,7 @@ CREATE TABLE ejercicio (
 CREATE TABLE rutina (
     id_rutina INTEGER PRIMARY KEY AUTOINCREMENT,
     clasificacion VARCHAR(100) NOT NULL
+    estado BOOLEAN DEFAULT 0, -- 0: Activa, 1: Inactiva
 );
 
 -- Crear tabla circuito
