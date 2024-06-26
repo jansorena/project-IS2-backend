@@ -108,3 +108,7 @@ export async function getEjercicios_id(){
 export async function getClientes_id(){
     return await Rutina.getClientes_id();
 }
+
+export async function getRutinas(id_rutina){
+    return await Rutina.getRutinas(id_rutina);
+}

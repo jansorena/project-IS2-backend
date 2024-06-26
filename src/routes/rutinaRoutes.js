@@ -6,6 +6,7 @@ class rutinaRouter extends CustomRouter {
         this.post('/', ['PUBLIC'], rutinaController.createRutina);
         this.put('/', ['PUBLIC'], rutinaController.editRutina);
         this.get('/', ['PUBLIC'], rutinaController.getData)
+        this.get('/:id_rutina', ['PUBLIC'], rutinaController.getRutinas)
     }
 }
 
