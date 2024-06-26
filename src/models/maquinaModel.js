@@ -57,11 +57,11 @@ class Maquina {
         }
     }
 
-    static async UpdateMaquina(id_maquina, estado){
+    static async UpdateMaquina(id_maquina, estado, reporte, descripcion){
         try {
             const result = await db.execute({
                 sql: "UPDATE maquina SET estado = ? WHERE id_maquina = ?",
-                args: [estado,id_maquina],
+                args: [estado,id_maquina, reporte, descripcion],
             });
 
             return result;

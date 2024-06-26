@@ -89,7 +89,9 @@ CREATE TABLE evaluacion (
 CREATE TABLE maquina (
     id_maquina INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre VARCHAR(100) NOT NULL,
-    estado VARCHAR(20) DEFAULT 'disponible' CHECK (estado IN ('disponible', 'mantencion', 'reparacion'))
+    estado VARCHAR(20) DEFAULT 'disponible' CHECK (estado IN ('disponible', 'mantencion', 'reparacion')),
+    reporte VARCHAR(500),
+    descripcion VARCHAR(1000)
 );
 
 -- Crear tabla tiene

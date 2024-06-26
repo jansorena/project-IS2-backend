@@ -9,6 +9,6 @@ export async function getAllmaquinas() {
     return maquinas
 }
 
-export async function UpdateMaquina(id_maquina, estado) {
-    return await Maquina.UpdateMaquina(id_maquina, estado);
+export async function UpdateMaquina(id_maquina, estado, reporte, descripcion) {
+    return await Maquina.UpdateMaquina(id_maquina, estado, reporte, descripcion);
 }
