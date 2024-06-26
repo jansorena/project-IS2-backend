@@ -10,7 +10,7 @@ class Maquina {
                     m.id_maquina,
                     m.nombre AS nombre_maquina,
                     m.estado,
-                    m.descripcion
+                    m.descripcion,
                     m.reporte
 
                     FROM maquina AS m
