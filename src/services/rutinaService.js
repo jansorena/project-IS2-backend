@@ -53,13 +53,17 @@ export async function createRutina(clasificacion, id_cliente, id_usuario, circui
     return result;
 }
 
-export async function editRutina(clasificacion, id_cliente, id_usuario, circuitos){
+export async function editRutina(id_rutina, clasificacion, id_cliente, id_usuario, circuitos){
     
+    if(clasificacion){
+       const rutina_data = await Rutina.editRutina(id_rutina, clasificacion);
+    }
     // editar los circuitos asociados a la rutina
     const circuito_data = await Rutina.editCircuito(circuitos);
     
     // Estructura para almacenar el JSON resultante
     const result = {
+        id_rutina,
         clasificacion,
         id_cliente,
         id_usuario: id_usuario, 
@@ -73,9 +77,7 @@ export async function editRutina(clasificacion, id_cliente, id_usuario, circuito
         const descanso = circuitos[index].descanso; // Capturar el descanso del circuito original
 
         // Crear la relación contiene
-        if(descanso){
-            await Rutina.editContiene(id_circuito, circuitos[index]);
-        }
+        await Rutina.editContiene(id_rutina, id_circuito, circuitos[index]);
 
         // Estructura del circuito
         const circuitoResult = {
