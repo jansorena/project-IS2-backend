@@ -15,7 +15,7 @@ export const UpdateMaquina = async (req,res) => {
 
         const id_maquina = req.body.id_maquina;
         const estado = req.body.estado;
-        const reporte = req.body.reporte;
+        const reporte = req.body.reporter;
         const descripcion = req.body.descripcion;
         const maquina = await maquinaService.UpdateMaquina(id_maquina, estado, reporte, descripcion);
         res.status(200).json(maquina);
