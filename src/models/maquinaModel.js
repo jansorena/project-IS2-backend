@@ -12,6 +12,8 @@ class Maquina {
                     m.estado,
                     m.descripcion
                     m.reporte
+
+                    FROM maquina AS m
                     `,
                     args: [],
                 });
