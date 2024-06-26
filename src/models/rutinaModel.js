@@ -74,16 +74,24 @@ class Rutina {
             args: [id_circuito, id_ejercicio, series, frecuencia, orden, descanso],
         });
         return result.rows[0];
-    }    
+    }
+
+    static async editRutina(id_rutina, clasificacion) {
+        const result = await db.execute({
+            sql: "UPDATE rutina SET clasificacion = ? WHERE id_rutina = ? RETURNING *",
+            args: [clasificacion, id_rutina],
+        });
+        return result.rows[0];
+    }
+
     static async editCircuito(circuitos) {
         const promises = circuitos.map(async (circuito) => {
             const repeticiones = circuito.repeticiones;
             const observaciones = circuito.observaciones;
-            const puntuacion = circuito.puntuacion;
-            const estado = 0;
+            const estado = circuito.estado;
             const result = await db.execute({
-                sql: "UPDATE circuito SET repeticiones = ?, observaciones = ?, puntuacion = ?, estado = ? WHERE id_circuito = ? RETURNING *",
-                args: [repeticiones, observaciones, puntuacion, estado, circuito.id_circuito],
+                sql: "UPDATE circuito SET repeticiones = ?, observaciones = ?, estado = ? WHERE id_circuito = ? RETURNING *",
+                args: [repeticiones, observaciones, estado, circuito.id_circuito],
             });
             return result.rows[0];
         });
@@ -92,11 +100,11 @@ class Rutina {
         return results;
     }
     
-    static async editContiene(id_circuito, circuito){
+    static async editContiene(id_rutina, id_circuito, circuito){
         const descanso = circuito.descanso;
         const result = await db.execute({
-            sql: "UPDATE contiene SET descanso = ? WHERE id_circuito = ? RETURNING *",
-            args: [descanso, id_circuito],
+            sql: "UPDATE contiene SET descanso = ? WHERE id_rutina = ? AND id_circuito = ? RETURNING *",
+            args: [descanso, id_rutina, id_circuito],
         });
         return result.rows[0];
     }
