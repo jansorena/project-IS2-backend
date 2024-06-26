@@ -110,9 +110,10 @@ class Rutina {
     }
 
     static async editCompone(id_circuito, id_ejercicio, series, frecuencia, orden, descanso){
+        const id_ej = id_ejercicio;
         const result = await db.execute({
-            sql: "UPDATE compone SET series = ?, frecuencia = ?, orden = ?, descanso = ? WHERE id_circuito = ? AND id_ejercicio = ? RETURNING *",
-            args: [series, frecuencia, orden, descanso, id_circuito, id_ejercicio],
+            sql: "UPDATE compone SET id_ejercicio = ? series = ?, frecuencia = ?, orden = ?, descanso = ? WHERE id_circuito = ? AND id_ejercicio = ? RETURNING *",
+            args: [id_ej, series, frecuencia, orden, descanso, id_circuito, id_ejercicio],
         });
         return result.rows[0];
     }
