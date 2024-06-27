@@ -235,6 +235,84 @@ class Rutina {
             throw new Error('Error obteniendo la rutina');
         }
     }
+
+    static async getRutinasActivas() {
+        try {
+            // Obtener todas las rutinas activas
+            const rutinasResult = await db.execute({
+                sql: `
+                    SELECT r.*, 
+                           c.id_cliente, c.rut AS rut_cliente, c.nombre AS nombre_cliente, c.apellido AS apellido_cliente, 
+                           c.email AS email_cliente, c.fecha_nacimiento AS fecha_nacimiento_cliente, c.suscripcion AS suscripcion_cliente, 
+                           c.telefono AS telefono_cliente, c.foto AS foto_cliente, 
+                           u.id_usuario AS id_entrenador, u.nombre AS nombre_entrenador, u.apellido AS apellido_entrenador, 
+                           u.email AS email_entrenador, u.telefono AS telefono_entrenador, u.especialidad AS especialidad_entrenador, u.foto AS foto_entrenador
+                    FROM rutina r
+                    INNER JOIN tiene t ON r.id_rutina = t.id_rutina
+                    INNER JOIN cliente c ON t.id_cliente = c.id_cliente
+                    LEFT JOIN crea cr ON r.id_rutina = cr.id_rutina
+                    LEFT JOIN usuario u ON cr.id_entrenador = u.id_usuario
+                    WHERE r.estado = 0`,
+                args: []
+            });
+    
+            if (!rutinasResult.rows.length) {
+                throw new Error('No se encontraron rutinas activas.');
+            }
+    
+            // Recorrer cada rutina para obtener sus circuitos y ejercicios
+            for (const rutina of rutinasResult.rows) {
+                // Obtener los circuitos de la rutina
+                const circuitosResult = await db.execute({
+                    sql: "SELECT c.*, rc.descanso FROM circuito c INNER JOIN contiene rc ON c.id_circuito = rc.id_circuito WHERE rc.id_rutina = ?",
+                    args: [rutina.id_rutina],
+                });
+    
+                // Obtener los ejercicios de cada circuito
+                for (let circuito of circuitosResult.rows) {
+                    const ejerciciosResult = await db.execute({
+                        sql: "SELECT e.*, ce.series, ce.frecuencia, ce.orden, ce.descanso FROM ejercicio e INNER JOIN compone ce ON e.id_ejercicio = ce.id_ejercicio WHERE ce.id_circuito = ?",
+                        args: [circuito.id_circuito],
+                    });
+                    circuito.ejercicios = ejerciciosResult.rows;
+                }
+    
+                // Asignar los circuitos a la rutina
+                rutina.circuitos = circuitosResult.rows;
+            }
+    
+            // Devolver todas las rutinas con su estructura completa
+            return rutinasResult.rows.map(rutina => ({
+                id_rutina: rutina.id_rutina,
+                clasificacion: rutina.clasificacion,
+                estado: rutina.estado,
+                cliente: {
+                    id_cliente: rutina.id_cliente,
+                    rut: rutina.rut_cliente,
+                    nombre: rutina.nombre_cliente,
+                    apellido: rutina.apellido_cliente,
+                    email: rutina.email_cliente,
+                    fecha_nacimiento: rutina.fecha_nacimiento_cliente,
+                    suscripcion: rutina.suscripcion_cliente,
+                    telefono: rutina.telefono_cliente,
+                    foto: rutina.foto_cliente,
+                },
+                entrenador: {
+                    id_entrenador: rutina.id_entrenador,
+                    nombre: rutina.nombre_entrenador,
+                    apellido: rutina.apellido_entrenador,
+                    email: rutina.email_entrenador,
+                    telefono: rutina.telefono_entrenador,
+                    especialidad: rutina.especialidad_entrenador,
+                    foto: rutina.foto_entrenador,
+                },
+                circuitos: rutina.circuitos,
+            }));
+        } catch (error) {
+            console.error('Error obteniendo las rutinas activas:', error);
+            throw new Error('Error obteniendo las rutinas activas');
+        }
+    }
 }
 
 export default Rutina;

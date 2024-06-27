@@ -23,7 +23,7 @@ class Maquina {
                     return [];
                 }
   
-                return result;
+                return result.rows;
 
         } catch (error) {
             console.error('Error ejecutando getAllmaquinas:', error);

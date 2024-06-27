@@ -114,3 +114,7 @@ export async function getClientes_id(){
 export async function getRutinas(id_rutina){
     return await Rutina.getRutinas(id_rutina);
 }
+
+export async function getRutinasActivas(){
+    return await Rutina.getRutinasActivas();
+}

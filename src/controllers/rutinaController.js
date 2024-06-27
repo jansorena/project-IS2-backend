@@ -44,3 +44,13 @@ export const getRutinas = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const getRutinasActivas = async (req, res) => {
+    try {
+        const rutinas = await rutinaService.getRutinasActivas();
+        res.status(200).json(rutinas);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
