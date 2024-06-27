@@ -118,3 +118,7 @@ export async function getRutinas(id_rutina){
 export async function getRutinasActivas(){
     return await Rutina.getRutinasActivas();
 }
+
+export async function actualizarRutina(rutinaData){
+    return await Rutina.actualizarRutina(rutinaData);
+}

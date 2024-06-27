@@ -8,6 +8,7 @@ class rutinaRouter extends CustomRouter {
         this.get('/', ['PUBLIC'], rutinaController.getData)
         this.get('/activas', ['PUBLIC'], rutinaController.getRutinasActivas)
         this.get('/:id_rutina', ['PUBLIC'], rutinaController.getRutinas)
+        this.put('/actualizar', ['PUBLIC'], rutinaController.actualizarRutina)
     }
 }
 

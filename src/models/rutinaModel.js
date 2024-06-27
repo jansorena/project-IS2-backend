@@ -313,6 +313,33 @@ class Rutina {
             throw new Error('Error obteniendo las rutinas activas');
         }
     }
+
+    static async actualizarRutina(rutinaData) {
+        try {
+            console.log('Actualizando rutina:', rutinaData);
+            // Actualizar el estado de la rutina
+            await db.execute({
+                sql: "UPDATE rutina SET estado = ? WHERE id_rutina = ?",
+                args: [rutinaData.estado, rutinaData.id_rutina],
+            });
+    
+            // Actualizar los circuitos asociados a la rutina
+            for (const circuito of rutinaData.circuitos) {
+                await db.execute({
+                    sql: "UPDATE circuito SET estado = ?, observaciones = ? WHERE id_circuito = ?",
+                    args: [circuito.estado, circuito.observaciones, circuito.id_circuito],
+                });
+            }
+    
+            console.log("Datos actualizados correctamente");
+    
+        } catch (error) {
+            console.error('Error al actualizar los datos:', error);
+            throw new Error('Error al actualizar los datos');
+        }
+    }
 }
+
+
 
 export default Rutina;
