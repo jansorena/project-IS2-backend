@@ -122,3 +122,7 @@ export async function getRutinasActivas(){
 export async function actualizarRutina(rutinaData){
     return await Rutina.actualizarRutina(rutinaData);
 }
+
+export async function obtenerRutinasYtotalCircuitos(id_cliente){
+    return await Rutina.obtenerRutinasYtotalCircuitos(id_cliente);
+}

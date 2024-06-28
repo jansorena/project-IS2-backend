@@ -9,6 +9,7 @@ class rutinaRouter extends CustomRouter {
         this.get('/activas', ['PUBLIC'], rutinaController.getRutinasActivas)
         this.get('/:id_rutina', ['PUBLIC'], rutinaController.getRutinas)
         this.put('/actualizar', ['PUBLIC'], rutinaController.actualizarRutina)
+        this.get('/circuitos/:id_cliente', ['PUBLIC'], rutinaController.obtenerRutinasYtotalCircuitos)
     }
 }
 

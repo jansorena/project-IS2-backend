@@ -338,6 +338,80 @@ class Rutina {
             throw new Error('Error al actualizar los datos');
         }
     }
+
+    static async obtenerRutinasYtotalCircuitos(idCliente) {
+        try {
+            // Obtener las rutinas del cliente
+            const resultRutinas = await db.execute({
+                sql: `
+                    SELECT 
+                        r.id_rutina, 
+                        r.clasificacion, 
+                        r.estado AS rutina_estado,
+                        cr.fecha_rutina
+                    FROM 
+                        rutina r
+                    JOIN 
+                        tiene t ON r.id_rutina = t.id_rutina
+                    LEFT JOIN 
+                        crea cr ON r.id_rutina = cr.id_rutina
+                    WHERE 
+                        t.id_cliente = ?
+                `,
+                args: [idCliente],
+            });
+
+            const rutinas = resultRutinas.rows;
+
+            const rutinasConCircuitos = await Promise.all(rutinas.map(async (rutina) => {
+                // Obtener los circuitos con estado 0
+                const resultCircuitosEstado0 = await db.execute({
+                    sql: `
+                        SELECT 
+                            COUNT(*) as count
+                        FROM 
+                            circuito c
+                        JOIN 
+                            contiene rc ON c.id_circuito = rc.id_circuito
+                        WHERE 
+                            rc.id_rutina = ? AND c.estado = 0
+                    `,
+                    args: [rutina.id_rutina],
+                });
+                const circuitosEstado0 = resultCircuitosEstado0.rows[0].count;
+
+                // Obtener los circuitos con estado 1
+                const resultCircuitosEstado1 = await db.execute({
+                    sql: `
+                        SELECT 
+                            COUNT(*) as count
+                        FROM 
+                            circuito c
+                        JOIN 
+                            contiene rc ON c.id_circuito = rc.id_circuito
+                        WHERE 
+                            rc.id_rutina = ? AND c.estado = 1
+                    `,
+                    args: [rutina.id_rutina],
+                });
+                const circuitosEstado1 = resultCircuitosEstado1.rows[0].count;
+
+                return {
+                    id_rutina: rutina.id_rutina,
+                    clasificacion: rutina.clasificacion,
+                    rutina_estado: rutina.rutina_estado,
+                    fecha_rutina: rutina.fecha_rutina,
+                    circuitos_estado_0: circuitosEstado0,
+                    circuitos_estado_1: circuitosEstado1
+                };
+            }));
+
+            return rutinasConCircuitos;
+        } catch (error) {
+            console.error('Error al obtener rutinas y circuitos:', error);
+            throw new Error('Error al obtener rutinas y circuitos');
+        }
+    }
 }
 
 

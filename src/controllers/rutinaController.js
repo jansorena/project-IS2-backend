@@ -65,3 +65,14 @@ export const actualizarRutina = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const obtenerRutinasYtotalCircuitos = async (req, res) => {
+    try {
+        const id_cliente = req.params.id_cliente;
+        const rutinas = await rutinaService.obtenerRutinasYtotalCircuitos(id_cliente);
+        res.status(200).json(rutinas);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
